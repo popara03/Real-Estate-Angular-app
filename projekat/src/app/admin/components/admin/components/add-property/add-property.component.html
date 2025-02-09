@@ -1,0 +1,331 @@
+<div class="mb-5">
+    @if(showModal){
+        <div class="modal w-full h-full fixed top-0 left-0 z-50 flex justify-center items-center bg-neutral-900 bg-opacity-80">
+            <div class="relative w-8/12 bg-white rounded-md">
+                <router-outlet name="modal"></router-outlet>
+            </div>
+        </div>
+    }
+
+    @if(propertyId){
+        <h1 class="text-5xl font-semibold">Edit property</h1>
+        <hr class="my-5">
+    }
+
+    <form [formGroup]="mainForm" class="w-full flex flex-col gap-5" enctype="multipart/form-data">
+        <h3 class="text-lg font-semibold">General</h3>
+        
+        <div>
+            <mat-form-field class="w-full">
+                <mat-label>Title</mat-label>
+                <input formControlName="title" type="text" matInput>
+                <mat-error *ngIf="mainForm.get('title')?.invalid && mainForm.get('title')?.touched">
+                    Title is required and must be at least 2 characters long.
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div>
+            <mat-form-field class="w-full">
+                <mat-label>Description</mat-label>
+                <textarea matInput formControlName="description"></textarea>
+                <mat-error *ngIf="mainForm.get('description')?.invalid && mainForm.get('description')?.touched">
+                    Description is required and must be at least 10 characters long.
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="flex gap-3 mb-4">
+            <span class="text-lg">Image</span>
+            <input type="file" formControlName="image" (change)="onFileChange($event)">
+            <div *ngIf="isFileInvalid()">
+                <div class="text-sm text-red-500">Image is required.</div>
+            </div>
+
+            @if(imageSrc){
+                <img [src]="imageSrc" alt="Property image" class="w-96">
+            }
+        </div>
+
+        <hr>
+
+        <h3 class="text-lg font-semibold">Location</h3>
+
+        <div class="flex gap-5">
+            <div class="flex gap-5 items-center">
+                <mat-form-field class="m-0 p-0">
+                    <mat-label>State</mat-label>
+                    <mat-select formControlName="state">
+                        <mat-option [value]=""></mat-option>
+                        @for(state of states; track state){
+                            <mat-option [value]="state.id">{{state.name}}</mat-option>
+                        }
+                    </mat-select>
+                    <mat-error *ngIf="mainForm.get('state')?.invalid && mainForm.get('state')?.touched">
+                        State is required.
+                    </mat-error>
+                </mat-form-field>
+                
+                <a [routerLink]="[{ outlets: { 'modal': ['state'] } }]" (click)="toggleModal()">
+                    <app-btn [type]="'button'" [text]="'Add new'"
+                    [textColorClass]="'text-white'" [bgColorClass]="'bg-blue-600'">
+                    </app-btn>
+                </a>
+            </div>
+    
+            <div class="flex gap-5 items-center">
+                <mat-form-field class="m-0 p-0">
+                    <mat-label>City</mat-label>
+                    <mat-select formControlName="city">
+                        <mat-option [value]=""></mat-option>
+                        @for(city of cities; track city){
+                            <mat-option [value]="city.id">{{city.name}}</mat-option>
+                        }
+                    </mat-select>
+                    <mat-error *ngIf="mainForm.get('city')?.invalid && mainForm.get('city')?.touched">
+                        City is required.
+                    </mat-error>
+                </mat-form-field>
+                
+                <a [routerLink]="[{ outlets: { 'modal': ['city'] } }]" (click)="toggleModal()">
+                    <app-btn [type]="'button'" [text]="'Add new'"
+                    [textColorClass]="'text-white'" [bgColorClass]="'bg-blue-600'">
+                    </app-btn>
+                </a>
+            </div>
+        </div>
+
+        <div>
+            <mat-form-field class="w-full">
+                <mat-label>Address</mat-label>
+                <input type="text" matInput formControlName="address">
+                <mat-error *ngIf="mainForm.get('address')?.invalid && mainForm.get('address')?.touched">
+                    Address is required and must be at least 5 characters long.
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <hr>
+
+        <h3 class="text-lg font-semibold">Price</h3>
+
+        <div class="flex gap-5">
+            <mat-form-field class="w-full">
+                <mat-label>Price ($)</mat-label>
+                <input type="number" matInput formControlName="price">
+                <mat-error *ngIf="mainForm.get('price')?.invalid && mainForm.get('price')?.touched">
+                    Price is required and must be a positive number.
+                </mat-error>
+            </mat-form-field>
+
+            <mat-checkbox formControlName="priceFixed">
+                <span class="whitespace-nowrap">Fixed price</span>
+            </mat-checkbox>
+        </div>
+
+        <hr>
+
+        <h3 class="text-lg font-semibold">Owner details</h3>
+
+        <div>
+            <mat-form-field class="w-full">
+                <mat-label>Owner email</mat-label>
+                <input type="text" matInput formControlName="ownerEmail">
+                <mat-error *ngIf="mainForm.get('ownerEmail')?.invalid && mainForm.get('ownerEmail')?.touched">
+                    Valid email is required.
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div>
+            <mat-form-field class="w-full">
+                <mat-label>Owner phone</mat-label>
+                <input type="text" matInput formControlName="ownerPhone">
+                <mat-error *ngIf="mainForm.get('ownerPhone')?.invalid && mainForm.get('ownerPhone')?.touched">
+                    Valid phone number is required.
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <hr>
+
+        <h3 class="text-lg font-semibold">Floors</h3>
+
+        <div>
+            <mat-form-field class="w-full">
+                <mat-label>Floors</mat-label>
+                <input type="number" matInput formControlName="floors">
+                <mat-error *ngIf="mainForm.get('floors')?.invalid && mainForm.get('floors')?.touched">
+                    Floors are required and must be equal to zero or positive number.
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <hr>
+
+        <h3 class="text-lg font-semibold">Garden</h3>
+
+        <div>
+            <mat-form-field class="w-full">
+                <mat-label>Garden area</mat-label>
+                <input type="number" matInput formControlName="gardenArea">
+                <mat-error *ngIf="mainForm.get('gardenArea')?.invalid && mainForm.get('gardenArea')?.touched">
+                    Garden area is required and must be a positive number.
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <hr>
+        
+        <!-- Bedrooms -->
+        <div class="flex flex-col gap-2 bg-gray-100 p-5 rounded-md {{bedroomModalInvalid ? 'b-err' : ''}}">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-semibold">Bedrooms*</h3>
+
+                <a [routerLink]="[{ outlets: { 'modal': ['bedrooms'] } }]" (click)="toggleModal()">
+                    <app-btn [type]="'button'" [text]="'Add new'"
+                    [textColorClass]="'text-white'" [bgColorClass]="'bg-blue-600'">
+                    </app-btn>
+                </a>
+            </div>
+
+            @if(bedroomModalInvalid){
+                <div class="text-sm text-red-500">At least one bedroom is required.</div>
+            }
+
+            <div class="flex gap-2 flex-wrap">
+                <ng-container *ngFor="let b of insertObject.bedrooms;">
+                    <app-property-details-card
+                    [area]="b.area"
+                    [contentList]="b.elements"
+                    [showX]="true"
+                    (xEvent)="removeObject('bedroom', b)"
+                    >
+                    </app-property-details-card>
+                </ng-container>
+            </div>
+        </div>
+
+        <!-- Kitchens -->
+        <div class="flex flex-col gap-2 bg-gray-100 p-5 rounded-md" [ngClass]="kitchenModalInvalid ? 'b-err' : ''">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-semibold">Kitchens*</h3>
+
+                <a [routerLink]="[{ outlets: { 'modal': ['kitchens'] } }]" (click)="toggleModal()">
+                    <app-btn [type]="'button'" [text]="'Add new'"
+                    [textColorClass]="'text-white'" [bgColorClass]="'bg-blue-600'">
+                    </app-btn>
+                </a>
+            </div>
+
+            @if(kitchenModalInvalid){
+                <div class="text-sm text-red-500">At least one kitchen is required.</div>
+            }
+
+            <div class="flex gap-2 flex-wrap">
+                <ng-container *ngFor="let x of insertObject.kitchens;">
+                    <app-property-details-card
+                    [area]="x.area"
+                    [contentList]="x.elements"
+                    [showX]="true"
+                    (xEvent)="removeObject('kitchen', x)"
+                    >
+                    </app-property-details-card>
+                </ng-container>
+            </div>
+        </div>
+
+        <!-- Bathrooms -->
+        <div class="flex flex-col gap-2 bg-gray-100 p-5 rounded-md" [ngClass]="bathroomModalInvalid ? 'b-err' : ''">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-semibold">Bathrooms*</h3>
+
+                <a [routerLink]="[{ outlets: { 'modal': ['bathrooms'] } }]" (click)="toggleModal()">
+                    <app-btn [type]="'button'" [text]="'Add new'"
+                    [textColorClass]="'text-white'" [bgColorClass]="'bg-blue-600'">
+                    </app-btn>
+                </a>
+            </div>
+
+            @if(bathroomModalInvalid){
+                <div class="text-sm text-red-500">At least one bathroom is required.</div>
+            }
+
+            <div class="flex gap-2 flex-wrap">
+                <ng-container *ngFor="let x of insertObject.bathrooms;">
+                    <app-property-details-card
+                    [area]="x.area"
+                    [contentList]="x.elements"
+                    [showX]="true"
+                    (xEvent)="removeObject('bathroom', x)"
+                    >
+                    </app-property-details-card>
+                </ng-container>
+            </div>
+        </div>
+
+        <!-- Garages -->
+        <div class="flex flex-col gap-2 bg-gray-100 p-5 rounded-md">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-semibold">Garages</h3>
+
+                <a [routerLink]="[{ outlets: { 'modal': ['garages'] } }]" (click)="toggleModal()">
+                    <app-btn [type]="'button'" [text]="'Add new'"
+                    [textColorClass]="'text-white'" [bgColorClass]="'bg-blue-600'">
+                    </app-btn>
+                </a>
+            </div>
+
+            <div class="flex gap-2 flex-wrap">
+                <ng-container *ngFor="let x of insertObject.garages;">
+                    <app-property-details-card
+                    [area]="x.area"
+                    [showX]="true"
+                    (xEvent)="removeObject('garage', x)"
+                    >
+                    </app-property-details-card>
+                </ng-container>
+            </div>
+        </div>
+
+        <!-- Pools -->
+        <div class="flex flex-col gap-2 bg-gray-100 p-5 rounded-md">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-semibold">Pools</h3>
+
+                <a [routerLink]="[{ outlets: { 'modal': ['pools'] } }]" (click)="toggleModal()">
+                    <app-btn [type]="'button'" [text]="'Add new'"
+                    [textColorClass]="'text-white'" [bgColorClass]="'bg-blue-600'">
+                    </app-btn>
+                </a>
+            </div>
+
+            <div class="flex gap-2 flex-wrap">
+                <ng-container *ngFor="let x of insertObject.pools;">
+                    <app-property-details-card
+                    [area]="x.area"
+                    [showX]="true"
+                    (xEvent)="removeObject('pool', x)"
+                    >
+                    </app-property-details-card>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="flex gap-5 items-center">
+            @if(!propertyId){
+                <app-btn [type]="'submit'" [text]="'Add property'" (click)="mainFormSubmit()"></app-btn>
+            }
+            @else {
+                <app-btn [type]="'submit'" [text]="'Save changes'" [bgColorClass]="'bg-amber-600'" (click)="mainFormSubmit()"></app-btn>
+            }
+        
+            @if(formInvalid){
+                <div class="text-red-500 text-sm">Form not valid. Check error messages.</div>
+            }
+            @else{
+                <div class="text-green-700 text-sm">{{msg}}</div>
+            }
+        </div>
+    </form>
+</div>

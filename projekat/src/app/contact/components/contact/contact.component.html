@@ -1,0 +1,74 @@
+<!-- book section -->
+<section class="my-10 flex justify-center">
+
+    <div class="container xl:relative overflow-hidden">
+
+        <div class="bg-green-800 flex flex-col lg:flex-row items-center justify-evenly p-5 rounded-3xl">
+
+            <div class="text-center lg:text-left mb-10 lg:mb-0">
+                <h1 class="font-semibold text-white text-4xl md:text-5xl lg:text-7xl leading-normal mb-4">Want to list<br>your property?</h1>
+
+                <p class="font-normal text-white text-md md:text-xl">Fill in the form on the right, so we can schedule<br>a meeting and discuss the details. Totally free.</p>
+            </div>
+
+            <div class="hidden xl:block xl:absolute right-0">
+                <img src="assets/image/book.png" alt="Image">
+            </div>
+
+            <div class="w-full md:w-1/3 bg-white xl:relative p-5 rounded-3xl">
+
+                <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+                    <div class="mb-3">
+                        <mat-form-field class="w-full">
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="name">
+                        @if (contactForm.get('name')?.invalid || contactForm.get('name')?.touched){
+                            <mat-error>Name is required and min 2 letters long.</mat-error>
+                        }
+                        </mat-form-field>
+                    </div>
+                  
+                    <div class="my-3">
+                        <mat-form-field class="w-full">
+                            <mat-label>Email</mat-label>
+                            <input matInput formControlName="email">
+                            @if (contactForm.get('email')?.invalid || contactForm.get('email')?.touched) {
+                                <mat-error>Email is required and must be valid.</mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+                  
+                    <div class="my-3">
+                        <mat-form-field class="w-full">
+                            <mat-label>Messsage</mat-label>
+                            <textarea matInput formControlName="message"></textarea>
+                            @if (contactForm.get('email')?.invalid || contactForm.get('email')?.touched) {
+                                <mat-error>Message must be at least 10 characters long.</mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+
+                    <!-- kada koristim custom app-btn za submit izbacuje error da nije dobro povezana forma, iako ima type submit -->
+                    <button type="submit" class="px-6 py-3 text-lg text-white bg-green-700 rounded-xl w-full">Submit</button>
+                </form>
+
+                    @if(showResponse){
+                        @if(isSent){
+                            <p class="text-green-700 font-semibold my-3">
+                                Your message has been sent successfully.
+                            </p>
+                        }
+                        @else {
+                            <p class="text-red-700 font-semibold my-3">
+                                Your message has not been sent. Please try again.
+                            </p>
+                        }
+                    }
+            </div>
+
+        </div>
+
+    </div> <!-- container.// -->
+
+</section>
+<!-- book section //end -->

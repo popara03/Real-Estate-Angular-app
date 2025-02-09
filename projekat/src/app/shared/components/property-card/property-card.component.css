@@ -1,0 +1,5 @@
+.example-card {
+  width: 100%;
+  max-width: 380px;
+  @apply bg-gray-100;
+}

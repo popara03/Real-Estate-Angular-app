@@ -1,0 +1,17 @@
+@if(link){
+    <button
+    type="{{type}}"
+    routerLink="{{link}}"
+    class="{{fullWidth ? 'w-full' : ''}} {{textColorClass}} {{bgColorClass}} hover:{{bgHoverColorClass}} px-5 py-2 transition ease-in-out duration-500 font-normal text-lg rounded-xl"
+    >
+    {{text}}
+    </button>
+}
+@else{
+    <button
+    type="{{type}}"
+    class="{{fullWidth ? 'w-full' : ''}} {{textColorClass}} {{bgColorClass}} hover:{{bgHoverColorClass}} px-5 py-2 transition ease-in-out duration-500 font-normal text-lg rounded-xl"
+    >
+    {{text}}
+    </button>
+}

@@ -1,0 +1,156 @@
+<div class="py-5">
+    <div class="mb-5">
+        <h1 class="text-3xl font-bold mb-2">{{ property.title }}</h1>
+        <h2>{{property.city_name}}, {{property.state_name}}, {{property.address}}</h2>
+    </div>
+
+    <div class="flex gap-10">
+      <img [src]="property.img" alt="Property Image" class="w-1/2 h-96 rounded-lg shadow-lg">
+      
+      <div class="w-full p-5 rounded-xl bg-gray-100 flex flex-col gap-2 drop-shadow-md">
+        <div class="flex items-center gap-2">
+            <p class="text-lg font-semibold">Price:</p>
+            <p class="text-base">
+                ${{ property.price }}
+                @if(property.priceFixed){
+                    (Fixed Price)
+                }
+                @else{
+                    (Negotiable)
+                }
+            </p>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <p class="text-lg font-semibold">Area:</p>
+            <p class="text-base">
+                {{ property.total_area }} ft<sup>2</sup>
+            </p>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <p class="text-lg font-semibold">Garden:</p>
+            <p class="text-base">
+                {{ property.garden }} ft<sup>2</sup>
+            </p>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <p class="text-lg font-semibold">Floors:</p>
+            <p class="text-base">
+                {{ property.floors }}
+            </p>
+        </div>
+
+        <hr>
+
+        <div class="flex flex-col gap-2">
+            <p class="text-lg font-semibold">Description:</p>
+            <p>{{ property.description }}</p>
+        </div>
+
+        <hr>
+
+        <div class="flex flex-col gap-2">
+            <!-- Bedroom -->
+            @if(property.bedrooms.length){
+                <p class="text-lg font-semibold">Bedrooms:</p>
+                <div [ngClass]="'flex gap-2 flex-wrap'">
+                    @for(b of property.bedrooms; track b){
+                        <app-property-details-card
+                            [area]="b.area"
+                            [contentList]="b.elements"
+                        >
+                        </app-property-details-card>
+                    }
+                </div>
+            }
+        </div>
+
+        <hr>
+
+        <div class="flex flex-col gap-2">
+            <!-- Kitchen -->
+            @if(property.kitchens.length){
+                <p class="text-lg font-semibold">Kitchens:</p>
+                <div [ngClass]="'flex gap-2 flex-wrap'">
+                    @for(k of property.kitchens; track k){
+                        <app-property-details-card
+                            [area]="k.area"
+                            [contentList]="k.elements"
+                        >
+                        </app-property-details-card>
+                    }
+                </div>
+            }
+        </div>
+
+        <hr>
+
+        <div class="flex flex-col gap-2">
+            <!-- Bathroom -->
+            @if(property.bathrooms.length){
+                <p class="text-lg font-semibold">Bathrooms:</p>
+                <div [ngClass]="'flex gap-2 flex-wrap'">
+                    @for(b of property.bathrooms; track b){
+                        <app-property-details-card
+                            [area]="b.area"
+                            [contentList]="b.elements"
+                        >
+                        </app-property-details-card>
+                    }
+                </div>
+            }
+        </div>
+
+        <hr>
+
+        <div class="flex flex-col gap-2">
+            <!-- Garage -->
+            @if(property.garages.length){
+                <p class="text-lg font-semibold">Garages:</p>
+                <div [ngClass]="'flex gap-2 flex-wrap'">
+                    @for(g of property.garages; track g){
+                        <app-property-details-card
+                            [area]="g.area"
+                        >
+                        </app-property-details-card>
+                    }
+                </div>
+            }
+        </div>
+
+        <hr>
+
+        <div class="flex flex-col gap-2">
+            <!-- Pool -->
+            @if(property.pools.length){
+                <p class="text-lg font-semibold">Pools:</p>
+                <div [ngClass]="'flex gap-2 flex-wrap'">
+                    @for(p of property.pools; track p){
+                        <app-property-details-card
+                            [area]="p.area"
+                        >
+                        </app-property-details-card>
+                    }
+                </div>
+            }
+        </div>
+
+        <hr>
+
+        <div class="flex flex-col gap-2">
+            <p class="text-lg font-semibold">Owner contact:</p>
+            <p class="text-base font-semibold">
+                Phone: 
+                <span class="font-normal">{{ property.owner_phone }}</span>
+            </p>
+            <p class="text-base font-semibold">
+                Email:
+                <span class="font-normal">{{property.owner_email}}</span>
+            </p>
+        </div>
+
+      </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+<app-new-element-form></app-new-element-form>
+
+<hr class="my-5">
+
+<div class="flex flex-col gap-2 mb-5">
+    <!-- existing elements -->
+    <h4 class="text-lg">Existing elements:</h4>
+    <div class="flex flex-wrap gap-2 items-center bg-gray-100 p-2 rounded-md">
+        <form [formGroup]="elementsForm">
+            <!-- for sa cb-ovima -->
+            @for(e of elements; track e){
+            <mat-checkbox [value]="e.id" (change)="onCheckboxChange($event)" class="elementCheckbox">
+                {{e.name}}
+            </mat-checkbox>
+            }
+        </form>
+    </div>
+    
+    <!-- Validation -->
+    <div *ngIf="elementsFormArray.errors?.['required'] && (elementsFormArray.touched)">
+        <mat-error>
+            Select at least one element in order to delete it.
+        </mat-error>
+    </div>
+</div>
+
+<app-action-btn (touchedRow)="openDialog()" [type]="'delete'" [text]="'Delete selected elements'"></app-action-btn>
+
+<!-- Status message -->
+@if(sent){
+    <div class="text-base my-5" [ngClass]="failed ? 'text-red-500' : 'text-green-700'">
+        @if(failed){
+            There was an error while deleting the elements. Please try again.
+        }
+        @else {
+            Elements successfully deleted.
+        }
+    </div>
+}
+
+<div *ngIf="confirmationDialogOpen">
+    <app-confirmation-dialog></app-confirmation-dialog>
+</div>

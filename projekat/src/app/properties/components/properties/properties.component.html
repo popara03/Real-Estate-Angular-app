@@ -1,0 +1,101 @@
+<div class="flex flex-col md:flex-row gap-10">
+    <section class="w-full md:w-fit flex flex-col gap-5">
+        <!-- state -->
+        <mat-form-field>
+            <mat-label>State</mat-label>
+            <mat-select [(ngModel)]="filterObject.state" (selectionChange)="filter()">
+                <mat-option [value]=""></mat-option>
+                @for (x of states; track x) {
+                    <mat-option [value]="x.name">{{x.name}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    
+        <!-- city -->
+        <mat-form-field>
+            <mat-label>City</mat-label>
+            <mat-select [(ngModel)]="filterObject.city" (selectionChange)="filter()">
+                <mat-option [value]=""></mat-option>
+                @for (x of cities; track x) {
+                    <mat-option [value]="x.name">{{x.name}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    
+        <!-- min price -->
+        <mat-form-field class="example-full-width">
+            <mat-label>Min price</mat-label>
+            <input matInput [(ngModel)]="filterObject.minPrice" (input)="filter()">
+        </mat-form-field>
+    
+        <!-- max price -->
+        <mat-form-field class="example-full-width">
+            <mat-label>Max price</mat-label>
+            <input matInput [(ngModel)]="filterObject.maxPrice" (input)="filter()">
+        </mat-form-field>
+
+        <!-- min area -->
+        <mat-form-field class="example-full-width">
+            <mat-label>Min area</mat-label>
+            <input matInput [(ngModel)]="filterObject.minArea" (input)="filter()">
+        </mat-form-field>
+    
+        <!-- max area -->
+        <mat-form-field class="example-full-width">
+            <mat-label>Max area</mat-label>
+            <input matInput [(ngModel)]="filterObject.maxArea" (input)="filter()">
+        </mat-form-field>
+
+        <!-- floors -->
+        <mat-form-field>
+            <mat-label>Floors</mat-label>
+            <mat-select [(ngModel)]="filterObject.floors" (selectionChange)="filter()">
+                <mat-option [value]=""></mat-option>
+                @for (x of floors; track x) {
+                    <mat-option [value]="x">{{x}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        <!-- garage -->
+        <mat-checkbox [(ngModel)]="filterObject.garage" (change)="filter()">
+            Garage
+        </mat-checkbox>
+
+        <!-- pool -->
+        <mat-checkbox [(ngModel)]="filterObject.pool" (change)="filter()">
+            Pool
+        </mat-checkbox>
+
+        <!-- sort -->
+        <mat-form-field>
+            <mat-label>Sort</mat-label>
+            <mat-select [(ngModel)]="filterObject.sort" (selectionChange)="filter()">
+                <mat-option [value]=""></mat-option>
+                <mat-option [value]="'priceAsc'">Price: Low to High</mat-option>
+                <mat-option [value]="'priceDesc'">Price: High to Low</mat-option>
+                <mat-option [value]="'areaAsc'">Area: Low to High</mat-option>
+                <mat-option [value]="'areaDesc'">Area: High to Low</mat-option>
+            </mat-select>
+        </mat-form-field>
+    
+    </section>
+    
+    <section class="flex gap-5 flex-wrap mb-10">
+        @for(p of properties; track p){
+            <app-property-card
+                [id]="p.property_id"
+                [title]="p.title"
+                [state]="p.state_name"
+                [city]="p.city_name"
+                [area]="p.total_area"
+                [price]="p.price"
+                [img]="p.img"
+                [description]="p.description"
+            ></app-property-card>
+        }
+        @empty{
+            <h1 class="text-xl text-red-500">No properties to show.</h1>
+        }
+    </section>
+</div>

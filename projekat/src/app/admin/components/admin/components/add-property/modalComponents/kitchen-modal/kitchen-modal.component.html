@@ -1,0 +1,54 @@
+<div>
+    <div class="flex flex-col gap-5">
+        <!-- content -->
+        <form [formGroup]="kitchenForm" class="flex flex-col gap-5">
+            <div class="p-5 flex flex-col gap-5">
+                <!-- Title -->
+                <h3 class="text-2xl">Add new kitchen</h3>
+    
+                <!-- Area -->
+                <mat-form-field class="w-full">
+                    <mat-label>Area</mat-label>
+                    <input formControlName="area" type="number" matInput>
+                    <!-- Validation -->
+                    <mat-error *ngIf="kitchenForm.get('area')?.invalid && kitchenForm.get('area')?.touched">
+                    Area is required and must be a positive number.
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Elements -->
+                <div class="flex flex-col gap-2">
+                    <!-- existing elements -->
+                    <h4 class="text-lg">Choose from existing elements:</h4>
+                    <!-- Show msg here if no elements are chosen -->
+                    <div *ngIf="elementsFormArray.errors?.['required'] && (elementsFormArray.touched)">
+                        <mat-error>
+                            Please select at least one element.
+                        </mat-error>
+                    </div>
+                    <div class="flex flex-wrap gap-2 items-center bg-gray-100 p-2 rounded-md" formArrayName="elements">
+                        <!-- for sa cb-ovima -->
+                        @for(e of elements; track e){
+                        <mat-checkbox [value]="e.id" (change)="onCheckboxChange($event)" class="elementCheckbox">
+                            {{e.name}}
+                        </mat-checkbox>
+                        }
+                    </div>
+                    
+                    <app-new-element-form></app-new-element-form>
+                </div>
+
+                <!-- Status message -->
+                <div *ngIf="msg" class="text-base" [ngClass]="failed ? 'text-red-500' : 'text-green-700'">
+                    {{msg}}
+                </div>
+            </div>
+  
+            <!-- Confirmation buttons -->
+            <div class="py-2 px-5 flex gap-2 justify-end bg-gray-200 rounded-b-md">
+            <app-btn (click)="toggleModal()" type="button" text="Close" textColorClass="text-white" bgColorClass="bg-red-500"></app-btn>
+            <app-btn (click)="onSubmit()" type="submit" text="Add" textColorClass="text-white" bgColorClass="bg-green-700"></app-btn>
+            </div>
+        </form>
+    </div>
+</div>

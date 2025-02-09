@@ -1,0 +1,19 @@
+<form [formGroup]="newElementForm" class="flex flex-col gap-2">
+    <div class="flex items-center gap-2">
+        <mat-form-field class="w-full">
+            <mat-label>Element name</mat-label>
+            <input formControlName="name" type="text" matInput>
+            <!-- Validation -->
+            <mat-error *ngIf="newElementForm.get('name')?.invalid && newElementForm.get('name')?.touched">
+                Element name must be at least 2 characters long.
+            </mat-error>
+        </mat-form-field>
+
+        <app-btn (click)="onNewElementSubmit()" type="submit" text="Add new" textColorClass="text-white" bgColorClass="bg-blue-600" class="whitespace-nowrap"></app-btn>
+    </div>
+    
+    <!-- Status message -->
+    <div *ngIf="newElementMsg" class="text-base" [ngClass]="newElementFailed ? 'text-red-500' : 'text-green-700'">
+        {{newElementMsg}}
+    </div>
+</form>

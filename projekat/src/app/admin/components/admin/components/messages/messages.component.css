@@ -1,0 +1,18 @@
+.container{
+    width: 1200px;
+    overflow: hidden;
+    overflow-x: scroll;
+}
+
+tr:nth-child(even){
+    @apply bg-neutral-200;
+}
+
+th{
+    @apply !bg-green-700 text-white;
+}
+
+th, td{
+    table-layout: fixed;
+    @apply text-base border border-neutral-300 whitespace-nowrap;
+}

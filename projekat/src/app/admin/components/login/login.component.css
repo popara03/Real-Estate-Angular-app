@@ -1,0 +1,3 @@
+.login_input{
+    @apply w-full text-black mb-5 rounded-md;
+}

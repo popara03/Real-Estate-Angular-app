@@ -1,0 +1,25 @@
+<div class="relative min-w-28 px-5 py-3 bg-white rounded-md shadow-md">
+    <!-- header -->
+    <div class="flex justify-between items-center">
+      <span class="text-base font-semibold">{{ title }}</span>
+      <button type="button" *ngIf="showX" (click)="xEventEmitter()" class="absolute top-0 right-0 p-1 bg-red-500 text-neutral-200 font-bold rounded-tr-md">x</button>
+    </div>
+    <!-- body -->
+    <div class="card-content">
+        <span class="font-semibold">
+            Area:
+            <span class="font-normal">
+                {{area}} ft<sup>2</sup>
+            </span>
+        </span>
+        @if(contentList.length > 0){
+            <!-- elements -->
+            <ul class="list-disc">
+                <span class="font-semibold">Elements:</span>
+                @for(c of contentList; track c){
+                <li class="ml-5">{{ c.name }}</li>
+                }
+            </ul>
+        }
+    </div>
+</div>

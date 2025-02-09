@@ -1,0 +1,16 @@
+<div class="w-full max-w-40 h-full bg-gray-100 text-green-900 border-r-4">
+    <ul class="list-none flex flex-col">
+        <li class="text-lg border-b-2 w-full p-5" routerLinkActive="active">
+            <a [routerLink]="[{ outlets: { 'admin-outlet': ['add-property'] } }]" class="w-full h-full">Add property</a>
+        </li>
+        <li class="text-lg border-b-2 w-full p-5" routerLinkActive="active">
+            <a [routerLink]="[{ outlets: { 'admin-outlet': ['properties'] } }]" class="w-full h-full">Properties</a>
+        </li>
+        <li class="text-lg border-b-2 w-full p-5" routerLinkActive="active">
+            <a [routerLink]="[{ outlets: { 'admin-outlet': ['elements'] } }]" class="w-full h-full">Elements</a>
+        </li>
+        <li class="text-lg border-b-2 w-full p-5" routerLinkActive="active">
+            <a [routerLink]="[{ outlets: { 'admin-outlet': ['messages'] } }]" class="w-full h-full">Messages</a>
+        </li>
+    </ul>
+</div>

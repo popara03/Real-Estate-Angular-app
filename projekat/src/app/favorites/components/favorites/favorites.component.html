@@ -1,0 +1,19 @@
+<h1 class="text-5xl font-semibold my-5">Favorites</h1>
+
+<section class="flex gap-5 flex-wrap mb-10">
+    @for(p of properties; track p){
+        <app-property-card
+            [id]="p.property_id"
+            [title]="p.title"
+            [state]="p.state_name"
+            [city]="p.city_name"
+            [area]="p.total_area"
+            [price]="p.price"
+            [img]="p.img"
+            [description]="p.description"
+        ></app-property-card>
+    }
+    @empty{
+        <h1 class="text-xl text-red-500">No favorites to show.</h1>
+    }
+</section>

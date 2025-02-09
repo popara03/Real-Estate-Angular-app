@@ -1,0 +1,33 @@
+@if(type == "edit"){
+    <button type="button" (click)="onClick()"
+    class="{{colorClass ? colorClass : 'bg-amber-600'}} text-white px-3 py-2 rounded-md">
+        @if(text) {
+            {{text}}
+        }
+        @else {
+            Edit
+        }
+    </button>
+}
+@else if(type == "delete"){
+    <button type="button" (click)="onClick()"
+    class="{{colorClass ? colorClass : 'bg-red-600'}} text-white px-3 py-2 rounded-md">
+        @if(text) {
+            {{text}}
+        }
+        @else {
+            Delete
+        }
+    </button>
+}
+@else if (type == "redirect") {
+    <button type="button" (click)="onClickWithoutModal()"
+    class="{{colorClass ? colorClass : 'bg-amber-600'}} text-white px-3 py-2 rounded-md">
+        @if(text) {
+            {{text}}
+        }
+        @else {
+            Edit
+        }
+    </button>
+}

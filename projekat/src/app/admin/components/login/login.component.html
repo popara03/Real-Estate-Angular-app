@@ -1,0 +1,32 @@
+<div class="w-full flex justify-center items-center">
+    <div class="w-96 my-20 p-5 bg-green-900 bg-opacity-30 drop-shadow-xl border-green-700 border-2 text-white rounded-md">
+        <h2 class="text-2xl text-green-900 mb-5">Admin panel login</h2>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <!-- username -->
+            <mat-form-field class="w-full mb-3">
+                <mat-label>Username</mat-label>
+                <input matInput formControlName="username">
+                @if (loginForm.get('username')?.invalid || loginForm.get('username')?.touched){
+                    <mat-error>Username is required and min 2 letters long.</mat-error>
+                }
+            </mat-form-field>
+
+            <!-- password -->
+            <mat-form-field class="w-full mb-3">
+                <mat-label>Password</mat-label>
+                <input type="password" matInput formControlName="pw">
+                @if (loginForm.get('pw')?.invalid || loginForm.get('pw')?.touched){
+                    <mat-error>Password is required and min 2 letters long.</mat-error>
+                }
+            </mat-form-field>
+            
+            <!-- submit -->
+            <app-btn [type]="'submit'" [text]="'Login'" [fullWidth]="true"></app-btn>
+        </form>
+
+        <!-- status -->
+        @if(status){
+            <div class="{{failed ? 'text-red-600' : 'text-green-600'}} text-center mt-3">{{status}}</div>
+        }
+    </div>
+</div>

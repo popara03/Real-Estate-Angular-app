@@ -1,0 +1,34 @@
+<div>
+    <div class="flex flex-col gap-5">
+        <!-- content -->
+        <form [formGroup]="modalForm" class="flex flex-col gap-5">
+            <div class="p-5 flex flex-col">
+                <!-- Title -->
+                <h3 class="text-2xl mb-5">Add new city</h3>
+
+                <!-- Inputs -->
+                <mat-form-field class="w-full">
+                    <mat-label>City name</mat-label>
+                    <input formControlName="name" type="text" matInput>
+                    <!-- Validation -->
+                    @if(modalForm.get('name')?.invalid && modalForm.get('name')?.touched){
+                        <mat-error>Name is required and must be at least 2 characters long.</mat-error>
+                    }
+                </mat-form-field>
+
+                <!-- Status message -->
+                @if(msg){
+                    <div class="mt-5 text-base {{failed ? 'text-red-500' : 'text-green-700'}}">
+                        {{msg}}
+                    </div>
+                }
+            </div>
+
+            <!-- Confirmation buttons -->
+            <div class="py-2 px-5 flex gap-2 justify-end bg-gray-200 rounded-b-md">
+                <app-btn (click)="toggleModal()" [type]="'button'" [text]="'Close'" [textColorClass]="'text-white'" [bgColorClass]="'bg-red-500'"></app-btn>
+                <app-btn (click)="onSubmit()" [type]="'submit'" [text]="'Add'" [textColorClass]="'text-white'" [bgColorClass]="'bg-green-700'"></app-btn>
+            </div>
+        </form>
+    </div>
+</div>
